@@ -1,4 +1,5 @@
-FLEXA[1] for the solution of the LASSO problem: find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1; with: lambda > 0, A has m rows and n columns.
+FLEXA[1] for the solution of the LASSO problem: find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1; where: lambda > 0, A has m rows and n columns.
+[1] Facchinei, Scutari, Sagratella "Parallel Selective Algorithms for Nonconvex Big Data Optimization", IEEE TRANSACTIONS ON SIGNAL PROCESSING, VOL. 63, NO. 7, APRIL 1, 2015.
 
 In order to run the code it is necessary the presence of a folder named "data" at the same level of the "main.cpp" file.
 The folder must contains three files: "A.dat", "b.dat", "xs.dat".
