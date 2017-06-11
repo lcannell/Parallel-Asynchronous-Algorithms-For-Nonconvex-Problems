@@ -1,3 +1,5 @@
+FLEXA[1] for the solution of the LASSO problem: find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1; with: lambda > 0, A has m rows and n columns.
+
 In order to run the code it is necessary the presence of a folder named "data" at the same level of the "main.cpp" file.
 The folder must contains three files: "A.dat", "b.dat", "xs.dat".
 The first two files define the elements of the LASSO problem. The third one is the vector of the optimal solution, which is known for this class of LASSO problems.
