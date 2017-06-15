@@ -4,7 +4,8 @@ find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1;
 
 with: lambda > 0, A has m rows and n columns.
 
-Code written by Loris Cannelli. Last change 05/30/2017
+Code written by Loris Cannelli - lcannell@purdue.edu. 
+Last change 06/15/2017
 
 [1] Facchinei, Scutari, Sagratella "Parallel Selective Algorithms for Nonconvex Big Data Optimization",
 IEEE TRANSACTIONS ON SIGNAL PROCESSING, VOL. 63, NO. 7, APRIL 1, 2015.
@@ -201,19 +202,15 @@ int main (int argc, char **argv) {
 	MPI_Allreduce(&g_local, &g_global, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD); 
 	//Optimal value
 	f_star = 0.5*f + lambda*g_global;
-	for(int i = 0; i < m; i++)
-	    F[i] = 0.0 - b[i];  
     g_local = 0.0;
 	f = 0.0; 
 	for (int i = 0; i < m; i++) 
-	    f += F[i]*F[i]; 
+	    f += b[i]*b[i]; 
 	for(int i = 0; i < p; i++) 
 	    g_local += std::abs(x[i]);
 	MPI_Allreduce(&g_local, &g_global, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD); 
 	//Initial objective function value
-	f_value = 0.5*f + lambda*g_global;
-	//Initial gradient
-	cblas_dgemv (CblasColMajor, CblasTrans, m, p, 1, A, m, F, 1, 0, gradient, 1);	
+	f_value = 0.5*f + lambda*g_global;	
 	delete [] Ax;	
 	//Initial relative error
 	m_value = (f_value - f_star)/f_star;	
@@ -241,7 +238,11 @@ int main (int argc, char **argv) {
 	MPI_Barrier(MPI_COMM_WORLD); 
 	MPI_Allreduce(&hds_local, &hds_global,  1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 	//Proximal term (see [1] for details)
-	prox = 0.5*std::max(std::min(1.0*hds_global/n,1.0*n),1e-10); 	
+	prox = 0.5*std::max(std::min(1.0*hds_global/n,1.0*n),1e-10); 
+	//Initial gradient
+	for(int i = 0; i < m; i++)
+	    F[i] = 0.0 - b[i];  
+	cblas_dgemv (CblasColMajor, CblasTrans, m, p, 1, A, m, F, 1, 0, gradient, 1);	
 	init_time = MPI_Wtime() - total_clock;
 	starting_clock = MPI_Wtime();	
 	//FLEXA[1]						
