@@ -1,5 +1,6 @@
-AsyFLEXA[1] for the solution of the LASSO problem: find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1; where: lambda > 0, A has m rows and n columns.
-[1] Cannelli, Facchinei, Kungurtsev, Scutari "Asynchronous Parallel Algorithms for Nonconvex Big-Data Optimization. Part I: Model and Convergence. arXiv preprint arXiv:1607.04818, 2016.
+AsyFLEXA[1] for the solution of the Nesterov's LASSO problem[2]: find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1; where: lambda > 0, A has m rows and n columns.
+[1] Cannelli, Facchinei, Kungurtsev, Scutari "Asynchronous Parallel Algorithms for Nonconvex Big-Data Optimization. Part I: Model and Convergence", arXiv preprint arXiv:1607.04818, 2016.
+[2] Nesterov "Gradient methods for minimizing composite functions", MATHEMATICAL PROGRAMMING, 2013.
 
 In order to run the code it is necessary the presence of a folder named "data" at the same level of the "main.cpp" file.
 The folder must contains three files: "A.dat", "b.dat", "xs.dat".
