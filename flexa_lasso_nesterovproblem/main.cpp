@@ -1,4 +1,4 @@
-/*FLEXA[1] for the solution of the LASSO problem: 
+/*FLEXA[1] for the solution of the Nesterov's LASSO problem[2]: 
 
 find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1;
 
@@ -8,7 +8,9 @@ Code written by Loris Cannelli - lcannell@purdue.edu.
 Last change 06/15/2017
 
 [1] Facchinei, Scutari, Sagratella "Parallel Selective Algorithms for Nonconvex Big Data Optimization",
-IEEE TRANSACTIONS ON SIGNAL PROCESSING, VOL. 63, NO. 7, APRIL 1, 2015.
+IEEE TRANSACTIONS ON SIGNAL PROCESSING, 2015.
+[2] Nesterov "Gradient methods for minimizing composite functions",
+MATHEMATICAL PROGRAMMING, 2013.
  */
 
 #include <mpi.h>
@@ -202,15 +204,11 @@ int main (int argc, char **argv) {
 	MPI_Allreduce(&g_local, &g_global, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD); 
 	//Optimal value
 	f_star = 0.5*f + lambda*g_global;
-    g_local = 0.0;
 	f = 0.0; 
 	for (int i = 0; i < m; i++) 
 	    f += b[i]*b[i]; 
-	for(int i = 0; i < p; i++) 
-	    g_local += std::abs(x[i]);
-	MPI_Allreduce(&g_local, &g_global, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD); 
 	//Initial objective function value
-	f_value = 0.5*f + lambda*g_global;	
+	f_value = 0.5*f;
 	delete [] Ax;	
 	//Initial relative error
 	m_value = (f_value - f_star)/f_star;	
@@ -347,12 +345,12 @@ int main (int argc, char **argv) {
 	MPI_Barrier(MPI_COMM_WORLD);		
 	//Freeing memory
 	if (rank == 0)
-	    std::cout << "Freeing memory: "<<std::endl; 
+	    std::cout<<"Freeing memory: "<<std::endl; 
 	delete [] A; delete [] b; delete [] x_star; delete [] x_old; delete [] x; 
 	delete [] F; delete [] gradient; delete [] hessian; 
     delete [] times; delete [] values; delete [] merits; 
     if (rank == 0)
-	    std::cout << "DONE" << std::endl;	
+	    std::cout<<"DONE"<<std::endl;	
 	MPI::Finalize();	
 	return 0;
 }
