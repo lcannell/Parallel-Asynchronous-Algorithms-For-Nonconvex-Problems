@@ -1,4 +1,4 @@
-/*AsyFLEXA[1] for the solution of the LASSO problem: 
+/*AsyFLEXA[1] for the solution of the Nesterov's LASSO problem[2]: 
 
 find x which minimizes ||Ax-b||_2^2 + lambda*||x||_1;
 
@@ -7,8 +7,10 @@ with: lambda > 0, A has m rows and n columns.
 Code written by Loris Cannelli - lcannell@purdue.edu. 
 Last change 06/15/2017
 
-[1] Cannelli, Facchinei, Kungurtsev, Scutari "Asynchronous Parallel Algorithms for Nonconvex Big-Data Optimization. Part I: Model and Convergence.
+[1] Cannelli, Facchinei, Kungurtsev, Scutari "Asynchronous Parallel Algorithms for Nonconvex Big-Data Optimization. Part I: Model and Convergence",
 arXiv preprint arXiv:1607.04818, 2016.
+[2] Nesterov "Gradient methods for minimizing composite functions",
+MATHEMATICAL PROGRAMMING, 2013.
  */
 
 #include <omp.h>
