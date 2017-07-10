@@ -75,7 +75,6 @@ int main (int argc, char **argv) {
 	int rank = MPI::COMM_WORLD.Get_rank();
 	//Number of cores
 	int size = MPI::COMM_WORLD.Get_size();
-	std::cout<<rank<<std::endl;
 	int number_of_realizations = 5;	
 	for(int realization = 1; realization <= number_of_realizations; realization++){			
 		//Input parameters
